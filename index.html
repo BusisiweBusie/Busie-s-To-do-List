@@ -3,24 +3,51 @@
 <head>
     <meta charset="UTF-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE-edge"/>
-    <meta name="viewport" content="width=\, initial-scale=1.0">
-    <link rel="stylesheet" href= "style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"/>
-    <title>To Do List</title>
-
-
+    <title>To-Do List</title>
 </head>
 <body>
+    <center>
+        <img src="images/logo_of_todo_list-removebg-preview.png" alt="To-Do-Logo" class="Logo">
+    </center>
+
     <div class="container">
-        <header>
-           <div class="content">
-            <h2>Busie's To Do List</h2>
-            <input type="text" id="task-input" placeholder="Add a new task...">
-            <button id= "add.btn"> Add Task</button>
-            <ul id="task-list"></ul>
-           </div> 
-        </header>
+        <div class="row">
+            <div class="col s12">
+                <div id="main" class="card">
+                    <div class="card-content">
+                        <header>
+                            <h4 id="card-title">Busie's To-Do List</h4>
+                        </header>
+                        <form id="task-form">
+                            <div class="input-field">
+                                <input type="text" id="new-task" required>
+                                <label for="new-task">New Task</label>
+                            </div>
+                            <input type="submit" value="Add Task" class="btn">
+                        </form>
+                        <ul id="task-list" class="collection"></ul>
+                        <div class="card-action">
+                            <h5 id="task-title">Tasks</h5>
+                            <div class="input-field">
+                                <input type="text" id="filter">
+                                <label for="filter">Filter Tasks</label>
+                            </div>
+                            <ul id="filtered-tasks" class="collection"></ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer>
+            <div class="footer-bot">
+                <center>&copy; 2025 Busie's To-Do List | All Rights Reserved</center>
+            </div>
+        </footer>
     </div>
+    <script src="script.js"></script>
 </body>
-<script src="script.js"></script>
 </html>

@@ -6,22 +6,29 @@ body {
     background-image: linear-gradient(to bottom right, rgb(86, 46, 231),rgb(10, 117, 240));
 
 }
+
+
 .container {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    height: 60vh;
 
 }
-.content {
+
+    
+
+
+.card-content {
     background-color: #94bbe9;
     min-height: 400px;
     width: 540px;
     padding: 20px;
-    border-radius: 50px;
+    border-radius: 10px;
 
 }
-h2 {
+
+.card-title,h4 {
     text-align: center;
     color: blue;
 
@@ -33,11 +40,15 @@ input {
     width: 80%;
     padding: 10px;
     border: none;
-    border-bottom: 1px solid whitesmoke;
+    border-bottom: 1px solid rgb(4, 5, 5);
     outline: 0;
 
 }
-button {
+button:hover {
+    background-color: #3190f5;
+}
+
+.btn {
     padding: 10px 20px;
     background-color: rgb(132, 0, 255);
     border: none;
@@ -55,7 +66,7 @@ ul {
 li {
     margin: 10px 0;
     padding: 10px;
-    border: 10px solid red;
+    border: 0.2px solid red;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -68,6 +79,30 @@ li {
     border-radius: 3px;
     padding: 5px 10px;
     cursor: pointer;
+    margin-left: 10px;
     
 }
+delete-btn:hover {
+    background-color: #c82333;
+}
 
+
+.footer a {
+    margin: 0 10px;
+    font-size: 20px;
+    color: #ecf0f1;
+    text-decoration: none;
+
+}
+
+.footer a:hover {
+    color: #3498db;
+}
+
+.footer  {
+    align-items: center;
+    justify-content: center;
+    margin: 10px 0 0;
+    font-size: 14px;
+    color: #ecf0f1;
+}
