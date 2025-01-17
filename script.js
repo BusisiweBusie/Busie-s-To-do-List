@@ -1,75 +1,88 @@
-document.addEventListener("DOMContentLoaded", () => {
-    const taskForm = document.getElementById("task-form");
-    const newTaskInput = document.getElementById("new-task");
-    const taskList = document.getElementById("task-list");
-    const filterInput = document.getElementById("filter");
-    const filteredTasks = document.getElementById("filtered-tasks");
+document.addEventListener("DOMContentLoaded", function () {
+    const inputBox = document.getElementById("input-box");
+    const listContainer = document.getElementById("list-container");
 
-    // Fetch tasks from server
-    async function fetchTasks() {
-        const response = await fetch('/tasks');
-        const tasks = await response.json();
-        displayTasks(tasks);
+    function addTask() {
+        const taskText = inputBox.value.trim(); // Remove extra spaces
+
+        if (taskText === '') {
+            alert("You must write something!");
+            return;
+        }
+
+        let li = document.createElement("li");
+        li.textContent = taskText;
+
+        // Toggle "checked" when clicking a task
+        li.addEventListener("click", function () {
+            this.classList.toggle("checked");
+            saveTasks();
+        });
+
+        // Create delete button
+        let deleteBtn = document.createElement("span");
+        deleteBtn.innerHTML = "\u00d7"; // Unicode for "×"
+        deleteBtn.classList.add("delete");
+
+        // Remove task when delete button is clicked
+        deleteBtn.addEventListener("click", function (event) {
+            event.stopPropagation(); // Prevent clicking li
+            li.remove();
+            saveTasks();
+        });
+
+        li.appendChild(deleteBtn);
+        listContainer.appendChild(li);
+        inputBox.value = ''; // Clear input field
+        saveTasks();
     }
 
-    // Display tasks
-    function displayTasks(tasks) {
-        taskList.innerHTML = '';
-        tasks.forEach((task, index) => {
-            const li = document.createElement('li');
-            li.className = 'collection-item';
-            li.textContent = task;
-            const deleteBtn = document.createElement('a');
-            deleteBtn.className = 'secondary-content';
-            deleteBtn.innerHTML = '<i class="fa fa-remove"></i>';
-            deleteBtn.setAttribute('data-id', index);
-            deleteBtn.addEventListener('click', deleteTask);
-            li.appendChild(deleteBtn);
-            taskList.appendChild(li);
+    // Save tasks to Local Storage
+    function saveTasks() {
+        let tasks = [];
+        document.querySelectorAll("#list-container li").forEach(li => {
+            tasks.push({
+                text: li.textContent.replace("\u00d7", "").trim(),
+                checked: li.classList.contains("checked")
+            });
         });
+        localStorage.setItem("tasks", JSON.stringify(tasks));
     }
 
-    // Add task
-    taskForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const newTask = newTaskInput.value;
-        const response = await fetch('/tasks', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ task: newTask })
-        });
-        const result = await response.json();
-        fetchTasks();
-        newTaskInput.value = '';
-    });
+    // Load saved tasks from Local Storage
+    function loadTasks() {
+        let savedTasks = JSON.parse(localStorage.getItem("tasks")) || [];
+        savedTasks.forEach(task => {
+            let li = document.createElement("li");
+            li.textContent = task.text;
 
-    // Delete task
-    async function deleteTask(e) {
-        const id = e.target.getAttribute('data-id');
-        const response = await fetch(`/tasks/${id}`, {
-            method: 'DELETE'
-        });
-        const result = await response.json();
-        fetchTasks();
-    }
-
-    // Filter tasks
-    filterInput.addEventListener('input', () => {
-        const filter = filterInput.value.toLowerCase();
-        const tasks = taskList.getElementsByTagName('li');
-        Array.from(tasks).forEach(task => {
-            const item = task.textContent.toLowerCase();
-            if (item.includes(filter)) {
-                task.style.display = '';
-            } else {
-                task.style.display = 'none';
+            if (task.checked) {
+                li.classList.add("checked");
             }
-        });
-    });
 
-    // Initial fetch of tasks
-    fetchTasks();
+            li.addEventListener("click", function () {
+                this.classList.toggle("checked");
+                saveTasks();
+            });
+
+            let deleteBtn = document.createElement("span");
+            deleteBtn.innerHTML = "\u00d7";
+            deleteBtn.classList.add("delete");
+
+            deleteBtn.addEventListener("click", function (event) {
+                event.stopPropagation();
+                li.remove();
+                saveTasks();
+            });
+
+            li.appendChild(deleteBtn);
+            listContainer.appendChild(li);
+        });
+    }
+
+    loadTasks(); // Load existing tasks
+
+    // Attach addTask function to button
+    document.querySelector("button").addEventListener("click", addTask);
 });
 
