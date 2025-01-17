@@ -13,6 +13,11 @@ body {
     background-color: #f4f4f4;
 }
 
+.logo {
+    max-width: 20px; 
+    margin-top: 10%; 
+    margin-top: 20%; 
+}
 .container {
     width: 100%;
     min-height: 100vh;
@@ -28,6 +33,7 @@ body {
     margin: 100px auto 20px;
     padding: 40px 30px 70px;
     border-radius: 10px;
+    margin-top: 20%;
 }
 .ToDo-App h2 {
     color: #4505f7;
@@ -136,7 +142,7 @@ li.checked {
 }
 .delete:hover {
     background-color: #f81244;
-}/* Style the checkbox */
+}
 .task-checkbox {
     margin-right: 10px;
     width: 18px;
@@ -145,7 +151,7 @@ li.checked {
 
 }
 
-/* When a task is checked */
+
 .checked {
     text-decoration: line-through;
     color: rgb(69, 68, 78);
