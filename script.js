@@ -11,11 +11,23 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         let li = document.createElement("li");
-        li.textContent = taskText;
 
-        // Toggle "checked" when clicking a task
-        li.addEventListener("click", function () {
-            this.classList.toggle("checked");
+        // Create checkbox
+        let checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.classList.add("task-checkbox");
+
+        // Create task text span
+        let taskSpan = document.createElement("span");
+        taskSpan.textContent = taskText;
+
+        // Toggle "checked" when clicking the checkbox
+        checkbox.addEventListener("change", function () {
+            if (checkbox.checked) {
+                taskSpan.classList.add("checked");
+            } else {
+                taskSpan.classList.remove("checked");
+            }
             saveTasks();
         });
 
@@ -31,6 +43,9 @@ document.addEventListener("DOMContentLoaded", function () {
             saveTasks();
         });
 
+        // Append elements to li
+        li.appendChild(checkbox);
+        li.appendChild(taskSpan);
         li.appendChild(deleteBtn);
         listContainer.appendChild(li);
         inputBox.value = ''; // Clear input field
@@ -41,9 +56,11 @@ document.addEventListener("DOMContentLoaded", function () {
     function saveTasks() {
         let tasks = [];
         document.querySelectorAll("#list-container li").forEach(li => {
+            const checkbox = li.querySelector(".task-checkbox");
+            const taskSpan = li.querySelector("span");
             tasks.push({
-                text: li.textContent.replace("\u00d7", "").trim(),
-                checked: li.classList.contains("checked")
+                text: taskSpan.textContent,
+                checked: checkbox.checked
             });
         });
         localStorage.setItem("tasks", JSON.stringify(tasks));
@@ -54,17 +71,30 @@ document.addEventListener("DOMContentLoaded", function () {
         let savedTasks = JSON.parse(localStorage.getItem("tasks")) || [];
         savedTasks.forEach(task => {
             let li = document.createElement("li");
-            li.textContent = task.text;
 
+            // // Create checkbox
+            let checkbox = document.createElement("input");
+            checkbox.type = "checkbox";
+            checkbox.classList.add("task-checkbox");
+            checkbox.checked = task.checked; 
+
+            // Create task text span
+            let taskSpan = document.createElement("span");
+            taskSpan.textContent = task.text;
             if (task.checked) {
-                li.classList.add("checked");
+                taskSpan.classList.add("checked");
             }
 
-            li.addEventListener("click", function () {
-                this.classList.toggle("checked");
+            checkbox.addEventListener("change", function () {
+                if (checkbox.checked) {
+                    taskSpan.classList.add("checked");
+                } else {
+                    taskSpan.classList.remove("checked");
+                }
                 saveTasks();
             });
 
+            // Create delete button
             let deleteBtn = document.createElement("span");
             deleteBtn.innerHTML = "\u00d7";
             deleteBtn.classList.add("delete");
@@ -75,6 +105,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 saveTasks();
             });
 
+            li.appendChild(checkbox);
+            li.appendChild(taskSpan);
             li.appendChild(deleteBtn);
             listContainer.appendChild(li);
         });
@@ -85,4 +117,3 @@ document.addEventListener("DOMContentLoaded", function () {
     // Attach addTask function to button
     document.querySelector("button").addEventListener("click", addTask);
 });
-
